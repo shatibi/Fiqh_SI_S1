@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz ʿAqīda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ==================== EN-TÊTE ==================== -->
+        <header>
+            <h1>📚 Quiz Fiqh des adorations</h1>
+            <p class="subtitle">Révision du cours de Fiqh S1 science islamique</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </header>
+
+        <main>
+            <!-- ==================== ÉCRAN D'ACCUEIL ==================== -->
+            <section id="startScreen" class="screen active">
+                <div class="card">
+                    <p>
+                        Ce quiz contient <strong id="totalQuestions">200</strong> questions approfondies 
+                        avec explications détaillées.
+                    </p>
+                    
+                    <div class="options">
+                        <div class="option-group">
+                            <label for="questionCount">
+                                🔢 Nombre de questions :
+                            </label>
+                            <select id="questionCount">
+                                <option value="10">10 questions</option>
+                                <option value="20">20 questions</option>
+                                <option value="50">50 questions</option>
+                                <option value="100">100 questions</option>
+                                <option value="150">150 questions</option>
+                                <option value="all">200 questions</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="quizMode">
+                                📝 Mode du quiz :
+                            </label>
+                            <select id="quizMode">
+                                <option value="practice">Mode apprentissage (correction avec explication)</option>
+                                <option value="exam">Mode examen (explication à la fin)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="button-container">
+                        <button id="startBtn" class="btn-primary">
+                           Commencer le Quiz
+                        </button>
+                    </div>
+                    
+                    <div id="debugInfo" class="debug-info">
+                        <h4>🔍 Informations de débogage</h4>
+                        <p id="debugText">
+                            Initialisation...
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== ÉCRAN DU QUIZ ==================== -->
+            <section id="quizScreen" class="screen">
+                <div class="card">
+                    <div class="quiz-header">
+                        <span id="questionCounter">Question 1/10</span>
+                        <span id="score">Score: 0</span>
+                    </div>
+                    
+                    <h2 id="questionText">Chargement de la question...</h2>
+                    
+                    <div id="optionsContainer" class="options-container">
+                        <!-- Les options seront injectées par JavaScript -->
+                    </div>
+                    
+                    <!-- Zone d'explication (cachée par défaut) -->
+                    <div id="explanationContainer" class="explanation-container">
+                        <h3>Correction</h3>
+                        <div id="explanationText"></div>
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <button id="prevBtn" class="btn-secondary">
+                            ◀ Précédent
+                        </button>
+                        
+                        <button id="nextBtn" class="btn-primary">
+                            Suivant ▶
+                        </button>
+                        
+                        <button id="submitBtn" class="btn-success">
+                            ✓ Terminer le Quiz
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== ÉCRAN DES RÉSULTATS ==================== -->
+            <section id="resultsScreen" class="screen">
+                <div class="card">
+                    <h2>Résultats du Quiz</h2>
+                    
+                    <div class="result-summary">
+                        <div class="score-circle">
+                            <span id="percentage">0%</span>
+                        </div>
+                        <p class="circle-label">Score final</p>
+                        
+                        <div class="result-details">
+                            <div class="detail correct">
+                                <span>Correctes</span>
+                                <strong id="correctCount">0</strong>
+                            </div>
+                            <div class="detail incorrect">
+                                <span>Incorrectes</span>
+                                <strong id="incorrectCount">0</strong>
+                            </div>
+                            <div class="detail total">
+                                <span>Total</span>
+                                <strong id="totalCount">0</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="review-section">
+                        <h3>📋 Détail de vos réponses</h3>
+                        <div id="reviewList" class="review-list">
+                            <!-- Les réponses détaillées seront injectées ici -->
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="restartBtn" class="btn-primary">
+                            🔄 Recommencer avec les mêmes questions
+                        </button>
+                        <button id="newQuizBtn" class="btn-secondary">
+                            🏠 Nouveau Quiz avec de nouvelles questions
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ==================== PIED DE PAGE ==================== -->
+        <footer>
+            <p>Basé sur les cours de la ʿAqīda - 1ère année SI</p>
+        </footer>
+    </div>
+
+    <!-- ==================== SCRIPTS JAVASCRIPT ==================== -->
+    <script src="quiz-data.js"></script>
+    <script src="quiz-app.js"></script>
+    
+    <script>
+        // Message de confirmation de chargement
+        console.log("✓ HTML chargé avec succès");
+        
+        // Détection des erreurs de chargement
+        window.addEventListener('load', function() {
+            console.log("✓ Page complètement chargée");
+            
+            // Vérifier que les scripts sont chargés
+            if (typeof quizData === 'undefined') {
+                console.error("❌ quiz-data.js non chargé");
+                document.getElementById('debugInfo').style.display = 'block';
+                document.getElementById('debugText').innerHTML = 
+                    "ERREUR : Les questions ne sont pas chargées. Vérifiez le fichier quiz-data.js";
+            } else {
+                console.log(`✓ ${quizData.length} questions disponibles`);
+            }
+        });
+    </script>
+</body>
+</html>
